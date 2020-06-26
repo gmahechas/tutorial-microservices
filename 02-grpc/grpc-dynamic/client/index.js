@@ -11,8 +11,7 @@ const greetProtoDefinition = protoLoader.loadSync(greetProtoPath, {
   onefs: true,
 });
 
-const greetPackageDefinition = grpc.loadPackageDefinition(greetProtoDefinition)
-  .greet;
+const greetPackageDefinition = grpc.loadPackageDefinition(greetProtoDefinition).greet;
 
 const client = new greetPackageDefinition.GreetService(
   "127.0.0.1:50051",
