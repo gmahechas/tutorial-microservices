@@ -13,10 +13,7 @@ const greetProtoDefinition = protoLoader.loadSync(greetProtoPath, {
 
 const greetPackageDefinition = grpc.loadPackageDefinition(greetProtoDefinition).greet;
 
-const client = new greetPackageDefinition.GreetService(
-  "127.0.0.1:50051",
-  grpc.credentials.createInsecure()
-);
+const client = new greetPackageDefinition.GreetService("127.0.0.1:50051", grpc.credentials.createInsecure());
 
 function callGreetings() {
 
@@ -34,6 +31,7 @@ function callGreetings() {
       console.log("Error:::", error);
     }
   });
+  
 }
 
 function main() {
