@@ -11,8 +11,7 @@ const greetProtoDefinition = protoLoader.loadSync(greetProtoPath, {
   onefs: true,
 });
 
-const greetPackageDefinition = grpc.loadPackageDefinition(greetProtoDefinition)
-  .greet;
+const greetPackageDefinition = grpc.loadPackageDefinition(greetProtoDefinition).greet;
 
 function greet(call, callback) {
   var firstName = call.request.greeting.first_name;

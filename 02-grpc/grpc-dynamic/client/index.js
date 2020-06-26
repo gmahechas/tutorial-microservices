@@ -1,7 +1,6 @@
 const grpc = require("grpc");
 const protoLoader = require("@grpc/proto-loader");
 const path = require("path");
-const { request } = require("http");
 
 const greetProtoPath = path.join(__dirname, "..", "protos", "greet.proto");
 const greetProtoDefinition = protoLoader.loadSync(greetProtoPath, {
