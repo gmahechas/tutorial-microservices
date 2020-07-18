@@ -1,13 +1,11 @@
 const grpc = require("grpc");
 
-const calculator = require("../server/protos/calculator_pb");
-const calculatorService = require("../server/protos/calculator_grpc_pb");
+const calculator = require("../protos/js/protos/calculator_pb");
+const calculatorService = require("../protos/js/protos/calculator_grpc_pb");
 
 function sum(call, callback) {
   const sumResponse = new calculator.SumResponse();
-  sumResponse.setSumResult(
-    call.request.getFirstNumber() + call.request.getSecondNumber()
-  );
+  sumResponse.setSumResult(call.request.getFirstNumber() + call.request.getSecondNumber());
   callback(null, sumResponse);
 }
 

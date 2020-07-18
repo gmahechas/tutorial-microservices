@@ -1,16 +1,11 @@
 const grpc = require("grpc");
 
-const greets = require("../server/protos/greet_pb");
-const service = require("../server/protos/greet_grpc_pb");
+const greets = require("../protos/js/protos/greet_pb");
+const service = require("../protos/js/protos/greet_grpc_pb");
 
 function greet(call, callback) {
   const greeting = new greets.GreetResponse();
-  greeting.setResult(
-    "Hello " +
-      call.request.getGreeting().getFirstName() +
-      " " +
-      call.request.getGreeting().getLastName()
-  );
+  greeting.setResult("Hello " + call.request.getGreeting().getFirstName() + " " + call.request.getGreeting().getLastName());
   callback(null, greeting);
 }
 

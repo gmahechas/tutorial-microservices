@@ -4,6 +4,28 @@
 var grpc = require('grpc');
 var protos_greet_pb = require('../protos/greet_pb.js');
 
+function serialize_greet_GreetManyTimeRequest(arg) {
+  if (!(arg instanceof protos_greet_pb.GreetManyTimeRequest)) {
+    throw new Error('Expected argument of type greet.GreetManyTimeRequest');
+  }
+  return Buffer.from(arg.serializeBinary());
+}
+
+function deserialize_greet_GreetManyTimeRequest(buffer_arg) {
+  return protos_greet_pb.GreetManyTimeRequest.deserializeBinary(new Uint8Array(buffer_arg));
+}
+
+function serialize_greet_GreetManyTimesResponse(arg) {
+  if (!(arg instanceof protos_greet_pb.GreetManyTimesResponse)) {
+    throw new Error('Expected argument of type greet.GreetManyTimesResponse');
+  }
+  return Buffer.from(arg.serializeBinary());
+}
+
+function deserialize_greet_GreetManyTimesResponse(buffer_arg) {
+  return protos_greet_pb.GreetManyTimesResponse.deserializeBinary(new Uint8Array(buffer_arg));
+}
+
 function serialize_greet_GreetRequest(arg) {
   if (!(arg instanceof protos_greet_pb.GreetRequest)) {
     throw new Error('Expected argument of type greet.GreetRequest');
@@ -39,6 +61,18 @@ greet: {
     requestDeserialize: deserialize_greet_GreetRequest,
     responseSerialize: serialize_greet_GreetResponse,
     responseDeserialize: deserialize_greet_GreetResponse,
+  },
+  // Streaming
+greetManyTimes: {
+    path: '/greet.GreetService/GreetManyTimes',
+    requestStream: false,
+    responseStream: true,
+    requestType: protos_greet_pb.GreetManyTimeRequest,
+    responseType: protos_greet_pb.GreetManyTimesResponse,
+    requestSerialize: serialize_greet_GreetManyTimeRequest,
+    requestDeserialize: deserialize_greet_GreetManyTimeRequest,
+    responseSerialize: serialize_greet_GreetManyTimesResponse,
+    responseDeserialize: deserialize_greet_GreetManyTimesResponse,
   },
 };
 
