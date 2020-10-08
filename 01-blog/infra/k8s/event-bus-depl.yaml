@@ -17,10 +17,10 @@ spec:
           image: gmahechas/event-bus
           imagePullPolicy: IfNotPresent
 ---
-  apiVersion: v1
-  kind: Service
+apiVersion: v1
+kind: Service
   metadata:
-    name: event-bus-service
+    name: event-bus-clusterip-service
   spec:
     selector:
       app: event-bus
