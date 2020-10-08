@@ -13,6 +13,6 @@ spec:
         app: posts
     spec:
       containers:
-        - name: post
-          image: gmahechas/posts:latest
+        - name: posts
+          image: gmahechas/posts
           imagePullPolicy: IfNotPresent
