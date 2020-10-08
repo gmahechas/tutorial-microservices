@@ -14,4 +14,4 @@ spec:
     spec:
       containers:
         - name: post
-          image: gmahechas/post:0.0.1
+          image: gmahechas/posts:0.0.1
