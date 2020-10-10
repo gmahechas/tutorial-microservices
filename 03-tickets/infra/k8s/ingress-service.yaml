@@ -8,7 +8,7 @@ metadata:
 spec:
   rules:
     - http:
-      paths:
+        paths:
         - path: /api/users/?(.*)
           backend:
             serviceName: auth-srv
