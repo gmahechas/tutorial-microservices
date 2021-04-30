@@ -1,10 +1,10 @@
 import React from 'react';
 
 export default ({ comments }) => {
-  const renderedComments = comments.map(comment => {
+  const renderedComments = comments && comments.map(comment => {
     let content;
 
-    if (comment.status === 'approved') {
+    if(comment.status === 'approved') {
       content = comment.content;
     }
 
