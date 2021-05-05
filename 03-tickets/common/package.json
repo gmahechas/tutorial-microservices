@@ -1,0 +1,24 @@
+{
+  "name": "@gmahechas/common-ms",
+  "version": "1.0.0",
+  "description": "",
+  "main": "./build/index.js",
+  "types": "./build/index.d.ts",
+  "files": [
+    "./build//**/*"
+  ],
+  "scripts": {
+    "clean": "rm -rf ./build/*",
+    "build": "npm run clean && tsc"
+  },
+  "keywords": [],
+  "author": "gmahechas",
+  "license": "ISC",
+  "publishConfig": {
+    "access": "public"
+  },
+  "devDependencies": {
+    "del-cli": "^3.0.1",
+    "typescript": "^4.2.4"
+  }
+}
