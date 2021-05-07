@@ -1,6 +1,6 @@
 {
   "name": "@gmahechas/common-ms",
-  "version": "1.0.1",
+  "version": "1.0.3",
   "description": "",
   "main": "./build/index.js",
   "types": "./build/index.d.ts",
@@ -10,7 +10,7 @@
   "scripts": {
     "clean": "rm -rf ./build/*",
     "build": "npm run clean && tsc",
-    "pub": "git add . && git commit -m \"Updates\" && npm version patch && npm run build && npm publish"
+    "pub": "npm version patch && git add . && git commit -m \"Updates\" && npm run build && npm publish"
   },
   "keywords": [],
   "author": "gmahechas",
