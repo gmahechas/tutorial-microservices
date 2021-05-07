@@ -1,10 +1,10 @@
 import express from 'express';
 import { body } from 'express-validator';
 
+import { NotFountError, validateRequestMiddleware, currentUserMiddleware } from '@gmahechas/common-ms';
+
 import * as fromauthController from '../controllers/auth.controller';
-import { NotFountError } from '../middlewares/errors/not-found.error';
-import { validateRequestMiddleware } from '../middlewares/validate-request.middleware';
-import { currentUserMiddleware } from '../middlewares/current-user.middleware';
+
 
 const router = express.Router();
 

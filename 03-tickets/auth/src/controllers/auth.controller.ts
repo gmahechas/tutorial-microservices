@@ -1,9 +1,9 @@
 import { Request, Response } from 'express';
 
 import jwt from 'jsonwebtoken';
+import { BadRequestError } from '@gmahechas/common-ms';
 
 import { User } from '../databases/mongodb/user';
-import { BadRequestError } from '../middlewares/errors/bad-request-error';
 
 import { Password } from '../utils/password';
 
