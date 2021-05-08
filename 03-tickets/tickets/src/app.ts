@@ -3,8 +3,8 @@ import 'express-async-errors';
 
 import { json } from 'body-parser';
 import cookieSession from 'cookie-session';
-import routes from './routes';
-import { errorMiddleware } from '@gmahechas/common-ms';
+import { ticketsRouter } from './routes/tickets';
+import { errorMiddleware, currentUserMiddleware } from '@gmahechas/common-ms';
 
 const app = express();
 app.set('trust proxy', true);
@@ -15,7 +15,9 @@ app.use(
     secure: true
   })
 )
-app.use(routes);
+
+app.use(currentUserMiddleware);
+app.use(ticketsRouter);
 app.use(errorMiddleware);
 
 export { app };
