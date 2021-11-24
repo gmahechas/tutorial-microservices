@@ -5,6 +5,10 @@ import { requireAuthMiddleware, validateRequestMiddleware, NotFountError, BadReq
 import { Ticket } from '../models/ticket';
 import { Order, OrderStatus } from '../models/order';
 
+import { natsWrapper } from '../databases/nats/nats-wrapper';
+import { OrderCreatedPublisher } from '../events/publishers/order-created-publisher';
+import { OrderCancelledPublisher } from '../events/publishers/order-cancelled-publisher';
+
 const router = express.Router();
 
 const EXPIRATION_WINDOW_SECONDS = 15 * 60;
@@ -37,7 +41,16 @@ router.post('/api/orders', requireAuthMiddleware,
     });
 
     await order.save();
-
+    new OrderCreatedPublisher(natsWrapper.client).publish({
+      id: order.id,
+      status: order.status,
+      userId: order.userId,
+      expiresAt: order.expiresAt.toISOString(),
+      ticket: {
+        id: ticket.id,
+        price: ticket.price
+      }
+    });
     res.status(201).send(order);
   });
 
@@ -50,10 +63,10 @@ router.get('/api/orders', requireAuthMiddleware, async (req: Request, res: Respo
 
 router.get('/api/orders/:orderId', requireAuthMiddleware, async (req: Request, res: Response) => {
   const order = await Order.findById(req.params.orderId).populate('ticket');
-  if(!order) {
+  if (!order) {
     throw new NotFountError();
   }
-  if(order.userId !== req.currentUser!.id) {
+  if (order.userId !== req.currentUser!.id) {
     throw new NotAuthorizedError();
   }
   res.send(order);
@@ -61,17 +74,21 @@ router.get('/api/orders/:orderId', requireAuthMiddleware, async (req: Request, r
 
 router.delete('/api/orders/:orderId', requireAuthMiddleware, async (req: Request, res: Response) => {
   const { orderId } = req.params;
-  const order = await Order.findById(orderId);
-  if(!order) { 
+  const order = await Order.findById(orderId).populate('ticket');
+  if (!order) {
     throw new NotFountError();
   }
 
-  if(order.userId !== req.currentUser!.id) {
+  if (order.userId !== req.currentUser!.id) {
     throw new NotAuthorizedError();
   }
 
   order.status = OrderStatus.Cancelled;
   await order.save();
+  new OrderCancelledPublisher(natsWrapper.client).publish({
+    id: order.id,
+    ticket: { id: order.ticket.id }
+  });
   res.send(order);
 });
 
