@@ -1,7 +1,10 @@
 import { NotAuthorizedError, NotFountError } from '@gmahechas/common-ms';
 import { Request, Response } from 'express';
+import { natsWrapper } from '../databases/nats/nats-wrapper';
 
 import { Ticket } from '../databases/mongodb/ticket';
+import { TicketCreatedPublisher } from '../events/publishers/ticket-created-publisher';
+import { TicketUpdatedPublisher } from '../events/publishers/ticket-updated-publisher';
 
 export const tickets = async (req: Request, res: Response) => {
   const { title, price } = req.body;
@@ -13,7 +16,12 @@ export const tickets = async (req: Request, res: Response) => {
   })
 
   await ticket.save();
-
+  await new TicketCreatedPublisher(natsWrapper.client).publish({
+    id: ticket.id,
+    title: ticket.title,
+    price: ticket.price,
+    userId: ticket.userId
+  })
   res.status(201).send(ticket);
 }
 
@@ -52,6 +60,11 @@ export const update = async (req: Request, res: Response) => {
     price: req.body.price
   });
   await ticket.save();
-
+  new TicketUpdatedPublisher(natsWrapper.client).publish({
+    id: ticket.id,
+    title: ticket.title,
+    price: ticket.price,
+    userId: ticket.userId
+  })
   res.send(ticket);
 }

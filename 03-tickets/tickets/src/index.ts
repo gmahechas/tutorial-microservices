@@ -5,7 +5,7 @@ import databasesConnection from './databases';
 import { app } from './app';
 
 const start = async () => {
-  await databasesConnection;
+  databasesConnection;
   https.createServer({
     key: fs.readFileSync(__dirname + '/../../ssl/key.pem'),
     cert: fs.readFileSync(__dirname + '/../../ssl/cert.pem'),
