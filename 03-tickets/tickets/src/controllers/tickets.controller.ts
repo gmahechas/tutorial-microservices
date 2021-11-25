@@ -1,4 +1,4 @@
-import { NotAuthorizedError, NotFountError } from '@gmahechas/common-ms';
+import { BadRequestError, NotAuthorizedError, NotFountError } from '@gmahechas/common-ms';
 import { Request, Response } from 'express';
 import { natsWrapper } from '../databases/nats/nats-wrapper';
 
@@ -50,6 +50,10 @@ export const update = async (req: Request, res: Response) => {
 
   if (!ticket) {
     throw new NotFountError();
+  }
+
+  if (ticket.orderId) {
+    throw new BadRequestError('Ticket is reserved');
   }
 
   if (ticket.userId !== req.currentUser!.id) {
