@@ -43,6 +43,7 @@ router.post('/api/orders', requireAuthMiddleware,
     await order.save();
     new OrderCreatedPublisher(natsWrapper.client).publish({
       id: order.id,
+      version: order.version,
       status: order.status,
       userId: order.userId,
       expiresAt: order.expiresAt.toISOString(),
@@ -87,6 +88,7 @@ router.delete('/api/orders/:orderId', requireAuthMiddleware, async (req: Request
   await order.save();
   new OrderCancelledPublisher(natsWrapper.client).publish({
     id: order.id,
+    version: order.version,
     ticket: { id: order.ticket.id }
   });
   res.send(order);

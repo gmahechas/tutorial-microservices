@@ -10,7 +10,7 @@ const start = async () => {
     key: fs.readFileSync(__dirname + '/../../ssl/key.pem'),
     cert: fs.readFileSync(__dirname + '/../../ssl/cert.pem'),
     passphrase: 'Analu'
-  }, app).listen(3001, () => console.log('Listening on port 3001'));
+  }, app).listen(3002, () => console.log('Listening on port 3002'));
 };
 
 start();
